@@ -1,0 +1,110 @@
+## 4.1 Introduction
+Additional iteration control statements: `for` and `do...while`. `switch` multiple-selection statement, 
+`break` statement for existing immediately from certain control statements, and the `continue` statement
+for skipping the remainder of the body of an iteration statement, then proceeding with the next iteration
+of the loop.
+
+## 4.2 Iteration Essentials
+Two means of iteration:
+	(1) Counter-controlled iteration (definite iteration):
+		We know in advance exactly how many times the loop will be executed.
+		
+	(2) Sentinel-controlled iteration (indefinite iteration):
+		It's not known in advance how many times the loop will be executed. The sentinel value indicates "end of data".
+		The sentinel is entered after all regular data items have bee supplied to the program. Sentinels must be distinct 
+		from regular data items.
+
+## 4.3 Counter-Controlled Iteration
+Counter-controlled iteration requires:
+	(1) The name of a control variable (or loop counter).
+	(2) The initial value of the control variable.
+	(3) The increment (or decrement) by which the control variable is modified each time through the loop.
+	(4) The condition that tests for the final value of the control variable (i.e., whether looping should continue).
+
+## 4.4 `for` Iteration Statement
+Control variable defined in a `for` header exist only until the loop terminates
+	When you define the control variable in the `for` header before the first semicolon (;), as in `fig04_02.c`:
+	    
+	    for (unsigned int counter = 1; counter <= 10; ++counter){
+	    
+	the control variable exists only until the loop terminates.
+	
+	* For a control variable defined in a `for` statement's header, attempting to access the control variable after the `for`
+	statement's closing right brace (}) is a compilation error. *
+	
+The general format of the `for` statement is
+	
+	for (initialization; condition; increment){
+	    statement
+	}
+
+## 4.5 `for` Statement: Notes and Observations
+* Error prevention: Although the value of the control variable can be changed in the body of a `for` loop, this can lead to subtle
+errors. It's best not th change it. *
+
+## 4.6 Examples Using the `for` Statement
+Application: Compound-Interest Calculations (fig04_06.c)
+	A person invests $1000.00 in a savings account yielding 5% interest. Assuming that all interest is left on deposit in the 
+	account, calculate and print the amount of money in the account at the end of each year for 10 years. Use the following 
+	formula for determining these amounts:
+		
+		a = p(1+r)^n
+	
+	where
+		p is the original amount invested (i.e., the principal)
+		r is the annual interest rate (for example, .05 for 5%)
+		n is the number of years
+		a is the amount on deposit at the end of the nth year.
+
+* SWE observation: Type `double` is a floating-point type like `float`, but typically a variable of type `double` can store a value
+of much greater magnitude with greater precision than `float`. Variables of type `double` occupy more memory than those of type `float`.
+For all but the most memory-intensive applications, professional programmers generally prefer `double` to `float`. *
+
+* Error Prevention: Do not use variables of type `float` or `double` to perform monetary calculations. The impreciseness of floating-point 
+numbers can cause errors that will result in incorrect monetary values. *
+
+## 4.7 `switch` Multiple-Selection Statement
+有時候一個演算法會對變數或是 expression 分別進行測試並採取不同行動，稱為 multiple selection。
+C 語言提供 `switch` multiple-selection statement 來處理這樣的情況。
+
+`switch` statement 包含一連串 `case` 標籤，一個 `default` case。(詳見 fig04_07.c)
+
+Reading Character Input
+	<stdio.h> 中的 `getchar` 功能會讀取從鍵盤輸入的一個字元，並儲存該字元在整數變數 `grade` 中。
+	字元通常會儲存在變數類型為 `char` 的變數中，但是 C 語言的特性，且字元也是由 1 byte 整數表示，
+	所以字元也可以儲存在 integer data type。
+	
+	當使用者輸入字元後，`getchar` 回傳該字元的 `int` 表示方法。例如：
+		printf("The character (%c) has the value %d.\n", 'a', 'a');
+	輸出為
+		The character (a) has the value 97.
+		
+	ASCII characters 和對應的十進位值在 Appendix B。
+	
+Enter the `EOF` Indicator
+	Linux/UNIX/Max OS: Ctrl+d
+	Windows: Ctrl+z, and press Enter
+	
+`switch` Statement Details
+	`break` statement 接下去的下一行是 `switch` statement 結束後的第一行。
+	如果 `switch` statement 中沒有任何一行 `break`，只要 `switch` statement 可執行，
+	statement 中所有的 cases 都會執行一次。如果 `switch` statement 不符合導致無法執行，就會跳到 `default` case。
+	`switch` statement 的流程可以參考 switch_statement_flowchart.jpg。
+
+Ignoring Newline, Tab, and Blank Characters in Input
+	從鍵盤輸入時，通常都需要按 Enter 鍵才會回傳。這時在輸入值的後面會自動加上 newline character。
+	為了忽略 newline character，我們會在程式中加入 case '\n', case '\t', case ' ' 來忽略 (詳見 fig04_07.c)。
+	因為 `getchar` 每次只會抓取一個，所以實際上輸入一個字元後，會進行兩次迴圈。
+
+## 4.8 `do...while` Iteration Statement
+
+## 4.9 'break' and `continue` Statements
+
+## 4.10 Logical Operators
+
+## 4.11 Confusing Equality (==) and Assignment (=) Operators
+
+## 4.12 Structured Programming Summary
+
+## 4.13 Secure C Programming
+
