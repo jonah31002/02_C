@@ -1,0 +1,220 @@
+# Chapter 3: Structured Program Development in C
+
+## 3.1 Introduction
+
+## 3.2 Algorithms
+	若一個處理程序包含
+	　(1) 什麼動作 (actions) 需要執行
+	　(2) 這些動作的順序 (order) 安排
+	即稱此處理程序為`演算法`。
+
+## 3.3 Pseudocode
+	Pseudocode 僅包含動作 (action) 與選擇 (decision)。
+	定義 (definition)，例如： `int i`，這些變數通常會先列在 pseudocode 前面。
+    
+## 3.4 Control Structures
+	通常程式中的 statements 是一行接一行執行，稱為 sequential execution。
+	但是接下來的討論可以讓你決定接下來要執行的 statement (不一定是下一行)，稱為 transfer of control。
+
+	Bohm 和 Jacopini 將程式分為 3 種 control structures
+	  (1) Sequence structure
+	  (2) Selection structure
+	  (3) Iteration structure
+	  
+	通常 flowcharts 中的動作 (action symbol) 是用矩形表示。
+	圓角矩形通常表示為 flowcharts 開始 (begin) 與結束 (end)。
+	如果只是畫出演算法中的一部分，通常會忽略圓角矩形，並以小空心圓作為 connector symbols。
+	flowcharts 中的選擇 (decision) 是用菱形表示。
+
+	C 語言中有 3 種 selection structures:
+	  (1) `if`: 又稱為 single-selection statement，如果符合條件就執行 statement，不符合條件就跳過。
+	  (2) `if...else`: 又稱為 double-selection statement，如果符合條件就執行 statement，不符合就執行另一個 statement。
+	  (3) `switch`: 又稱為 multiple-selection statement，根據多種條件有不同 actions。
+	  
+	C 語言中有 3 種 iteration structures:
+	  (1): `while`
+	  (2): `do..while`
+	  (3): `for`
+
+	總結 C 語言有 7 種 control statements: sequence，3 種 selections，3 種 iterations。
+
+## 3.5 The if Selection Statement
+
+
+
+## 3.6 The if...else Selection Statement
+
+## 3.7 The while Repetition Statement
+
+## 3.8 Formulating Algorithms: Counter-Controlled Repetition
+	Problem statement:
+	    A class of ten students took a quiz. The grades (integers in the range 0 to 100) for this quiz are 
+	    available to you. Determine the class average on the quiz.
+	    
+	Pseudocode algorithm:
+	    Set total to zero
+	    Set grade counter to one
+	    
+	    While grade counter is less than or equal to ten
+		Input the next grade
+		Add the grade into the total
+		Add one to the grade counter
+		
+	    Set the class average to the total diveded by ten
+	    Print the class average
+	    
+	In the algorithm, we use `unsigned int` to declared the variable, which can store only non-negative values
+	(that is, 0 and higher).
+
+	Remember to initialized the variables before using in the program. The uninitialized variable contains
+	a "garbage" vale - the value last stored in the memory location reserved for that variable.
+
+## 3.9 Formulating Algorithms: Sentinel-Controlled Repetition
+	Problem statement:
+	    Develop a class-averaging program that will process an arbitrary number of grades each time the program is run.
+
+	In this example, no indication is given of how many grades are to be entered.
+
+	Use a special value called a "sentinel value" (also called a "signal value", a "dummy value", or a "flag value") to 
+	indicate "end of data entry".
+
+	Clearly, the sentinel value must be chosen so that it cannot be confused with an acceptable input value.
+
+	Develop the algorithm with "top-down", "step-wise refinement":
+	    top:
+		Determine the class average for the quiz.
+	    
+	    First refinement:
+		Initialize variables
+		Input, sum and count the quiz grades
+		Calculate and print the class average
+	    
+	    Second refinement:
+		Initialize total to zero
+		Initialize counter to zero
+		
+		Input the first grade (possibly the sentinel)
+		While the user has not as yet entered the sentinel
+		    Add this grade into the running total
+		    Add one to the grade counter
+		    Input the next grade (possibly the sentinel)
+		
+		If the counter is not equal to zero (test for the possibility of division by zero - a fatal error)
+		    Set the average to the total divided by the counter
+		    Print the average
+		else
+		    Print "No grades were entered"
+		    
+	Many program can be divided logically into three phases: an initialization phase that initializes the program variables;
+	a processing phase that inputs data values and adjusts program variables accordingly; and a termination phase that calculates
+	and prints the final results.
+
+	Converting Between Types Explicitly and Implicitly
+		有時候除法的結果並非`int`而是`float`，就需要將結果轉換成`float`。
+		雖然已經將變數 average 定義為`float`型態，但是總成績 (`int`)/總人數 (`int`) 的結果還是整數，小數點後的值會直接去除。
+
+		因為是先進行整數的相除，才造成小數點後的值遺失，所以需要先將整數轉換成浮點數再相除
+		average = (float) total / counter;
+
+		上面除式多了 cast operator (float)，方法是建立一個 temporary floating-point copy of its operand, `total`。
+		儲存在`total`內的值依然是`int`型態。上述使用 case operator 的方法即 explicit conversion。
+
+		現在的計算包含浮點數 (temporary `float` version to `total`) 和`unsigned int`型態的`counter`。
+		為了保證運算數 (operand) 都是相同型態，編譯器會進行 implicit conversion。例如：上述除式包含 `float`和`unsigned int`，編譯器會再複製
+		一份`unsigned int`運算數的值並轉換成`float`型態，最後進行除法。
+
+		每個 cast operator 都是 unary operator，即每個 operator 只會取一個運算數。
+	    
+	Formatting Floating-Point Numbers
+		演算法中`%.2f`的`.2`為精確度，呈現出小數點後兩位的數值。如果是`%f`，會出現 default 準確度 (小數點後六位)。
+		小數點的呈現都是經過`rounded`的計算。
+
+		小數點的控制用在`scanf`中會出現錯誤，小數點的控制只會用在`printf`中。
+
+		切記：Do not compare floating-point values for equallity.
+
+## 3.10 Formulating Algorithms: Nested Control Structures
+	Problem statement:
+		A college offers a course that prepares students for the state licensing exam for real-estate brokers. Last year, 10 of the students who completed 
+		this course took the licensing examination. Naturally, the college wants to know how well its students did on the exam. You've been asked to write 
+		a program to summarize the results. You've been given a list of these 10 students. Next to each name is a 1 is written if the student passed the exam
+		or a 2 if the student failed.
+
+		Your program should analyze the results of the exam as follows:
+		1. Input each test result (i.e., a 1 or a 2). Display the prompting message "Enter result" each time the program requests another test result.
+		2. Count the number of test results of each type.
+		3. Display a summary of the test results indicating the number of students who passed and the number who failed.
+		4. If more than eight students passed the exam, print the message "Bonus to instructor!".
+		
+	從上述問題可以觀察出
+		1. Program 需要處理 10 筆資料，因此使用 counter-controlled loop。
+		2. 每筆輸入資料只會是 1 or 2，如果輸入不是 1，我們假設就是 2。
+		3. 需要使用 2 個 counters: 1 個計算通過的人數，另 1 個計算沒通過的人數。
+		4. 所有資料輸入完後，要對比通過人數是否大於 8 人。
+
+	Develop algorithm:
+		top:
+			分析考試結果並決定講師是否獲得獎勵。
+
+		First refinement:
+			初始化變數。
+			輸入 10 筆考試成績並計算通過和失敗。
+			輸出測驗結果的結論並決定講師是否獲得獎勵。
+
+		Second refinement:
+			初始化變數通過為零
+			初始化變數失敗為零
+			初始化變數學生數為一
+
+			當學生數小於或等於十
+				輸入下一筆學生考試結果
+
+				如果此學生通過
+					通過加一
+				否則
+					失敗加一
+
+				學生數加一
+			    
+			輸出通過人數
+			輸出失敗人數
+			如果通過人數大於八
+				輸出 "Bonus to instructor!"
+		    
+	如果要輸出`unsigned int`，要使用`%u conversion specifier`。
+
+## 3.11 The Assignment Operators
+	任何 statement 形式為
+		`variable` = `variable` operator `expression`;
+	可以轉換成
+		`variable` operator= `experssion`;
+	例如：
+		c = c + 3;
+		c += 3;
+	常見 assignment operator: +=, -=, *=, /=, %=
+
+## 3.12 The Increment and Decrement Operators
+	Unary increment operator: ++
+	Unary decrement operator: --
+
+	如果 increment/decrement operator 放在變數前，為 preincrement/predecrement operators。
+	如果 increment/decrement operator 放在變數後，為 postincrement/postdecrement operators。
+
+	Pre:
+		preincrement (++a): increment by 1, then use the new value of 'a' in the expression in which 'a' resides.
+
+		predecrement (--b): decrement by 1, then use the new value of 'b' in the expression in which 'b' resides.
+
+	Post:
+		postincrement (a++): use the current value of 'a' in the expression in which 'a' resides, then increment by 1.
+
+		postdecrement (b--): use the current value of 'b' in the expression in which 'b' resides, then decrement by 1.
+		
+## 3.13 Essentials of Counter-Controlled Repetition
+	Arithmetic Overflow
+		普通的加法也有可能造成潛在危險，例如整數加法後的結果超過整數型態可容納的上限，就會造成系統被攻擊，稱為 arithmetic overflow。
+		每種變數型態的上下限在 <limits.h> 中，例如整數型態的上下限為 INT_MAX 和 INT_MIN
+
+	Unsigned Integers
+		`unsigned int` 只能儲存 0 與正整數，正整數的上限可以參考 <limits.h> 中的 UNIT_MAX。
+
